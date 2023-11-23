@@ -1,1 +1,2047 @@
 print('hello')
+
+
+서울대학교 메일	­이건우 / 학생 / 경제학부 <lko3744@snu.ac.kr>
+Confirmation 메일 관련
+KUNWOO Abe LEE <kunwoo3744.lee@samsung.com>	2023년 11월 23일 오후 4:18
+답장 주소: kunwoo3744.lee@samsung.com
+받는사람: "lko3744@snu.ac.kr" <lko3744@snu.ac.kr>
+# -*- coding: utf-8 -*-
+
+import datetime
+
+import tkinter
+
+from tkinter import ttk, scrolledtext
+
+from pandas.tseries.holiday import AbstractHolidayCalendar, Holiday
+
+from pandas.tseries.offsets import CustomBusinessDay
+
+import win32com.client
+
+
+
+today = datetime.datetime.today()
+
+
+
+holidays = [('2021', '01', '01', '금요일', '신정'),
+
+            ('2021', '02', '11', '목요일', '설날'),
+
+            ('2021', '02', '12', '금요일', '설날'),
+
+            ('2021', '03', '01', '월요일', '삼일절'),
+
+            ('2021', '05', '05', '수요일', '어린이날'),
+
+            ('2021', '05', '19', '수요일', '석가탄신일'),
+
+            ('2021', '08', '16', '월요일', '광복절'),
+
+            ('2021', '09', '20', '월요일', '추석'),
+
+            ('2021', '09', '21', '화요일', '추석'),
+
+            ('2021', '09', '22', '수요일', '추석'),
+
+            ('2021', '10', '04', '월요일', '개천절'),
+
+            ('2021', '10', '11', '월요일', '한글날'),
+
+            ('2021', '12', '31', '금요일', '연말휴장일'),
+
+            ('2022', '01', '31', '월요일', '설날'),
+
+            ('2022', '02', '01', '화요일', '설날'),
+
+            ('2022', '02', '02', '수요일', '설날'),
+
+            ('2022', '03', '01', '화요일', '삼일절'),
+
+            ('2022', '03', '09', '수요일', '대통령선거'),
+
+            ('2022', '05', '05', '목요일', '어린이날'),
+
+            ('2022', '06', '06', '월요일', '현충일'),
+
+            ('2022', '08', '15', '월요일', '광복절'),
+
+            ('2022', '09', '09', '금요일', '추석'),
+
+            ('2022', '09', '12', '월요일', '추석'),
+
+            ('2022', '10', '03', '월요일', '개천절'),
+
+            ('2022', '10', '10', '월요일', '한글날'),
+
+            ('2022', '12', '30', '금요일', '연말휴장일'),
+
+            ('2023', '1', '23', '월요일', '설날'),
+
+            ('2023', '1', '24', '화요일', '설날(대체휴일)'),
+
+            ('2023', '3', '1', '수요일', '삼일절'),
+
+            ('2023', '5', '1', '월요일', '근로자의날'),
+
+            ('2023', '5', '5', '금요일', '어린이날'),
+
+            ('2023', '6', '6', '화요일', '현충일'),
+
+            ('2023', '8', '15', '화요일', '광복절'),
+
+            ('2023', '9', '28', '목요일', '추석'),
+
+            ('2023', '9', '29', '금요일', '추석'),
+
+            ('2023', '10', '3', '화요일', '개천절'),
+
+            ('2023', '10', '9', '월요일', '한글날'),
+
+            ('2023', '12', '25', '월요일', '성탄절'),
+
+            ('2023', '12', '29', '금요일', '연말휴장일'),
+
+            ('2024', '1', '1', '월요일', '신정'),
+
+            ('2024', '2', '9', '금요일', '설날'),
+
+            ('2024', '2', '12', '월요일', '설날(대체휴일)'),
+
+            ('2024', '3', '1', '금요일', '삼일절'),
+
+            ('2024', '5', '1', '수요일', '근로자의날'),
+
+            ('2024', '5', '6', '월요일', '어린이날(대체휴일)'),
+
+            ('2024', '5', '15', '수요일', '석가탄신일'),
+
+            ('2024', '6', '6', '목요일', '현충일'),
+
+            ('2024', '8', '15', '목요일', '광복절'),
+
+            ('2024', '9', '16', '월요일', '추석'),
+
+            ('2024', '9', '17', '화요일', '추석'),
+
+            ('2024', '9', '18', '수요일', '추석'),
+
+            ('2024', '10', '3', '목요일', '개천절'),
+
+            ('2024', '10', '9', '수요일', '한글날'),
+
+            ('2024', '12', '25', '수요일', '성탄절'),
+
+            ('2024', '12', '31', '화요일', '연말휴장일'),
+
+            ]
+
+
+
+
+
+class KRTradingCalendar(AbstractHolidayCalendar):
+
+    rules = [
+
+        Holiday(holiday[4], year=int(holiday[0]), month=int(holiday[1]), day=int(holiday[2]))
+
+        for holiday in holidays
+
+    ]
+
+
+
+
+
+TDay = CustomBusinessDay(calendar=KRTradingCalendar())
+
+
+
+
+
+def cp_get(event):
+
+    global cp
+
+    cp = cp_combo.get()
+
+
+
+
+
+def vd_get(event):
+
+    global vd
+
+    vd = vd_combo.get()
+
+
+
+
+
+def im_get(event):
+
+    global im
+
+    im = im_combo.get()
+
+
+
+
+
+def fm_get(event):
+
+    global fm
+
+    fm = fm_combo.get()
+
+
+
+
+
+def text_get(event):
+
+    global tt
+
+    tt = textbox.get(1.0, 'end')
+
+
+
+
+
+def saveClick():
+
+    global tt
+
+    tt = textbox.get(1.0, 'end')
+
+
+
+
+
+def mail_send():
+
+    global counter_party
+
+    global vd_mail
+
+    global intermed
+
+
+
+    today = datetime.datetime.today()
+
+    if vd == 'T0':
+
+        vd_mail = today
+
+    if vd == 'T1':
+
+        vd_mail = today + TDay
+
+    if vd == 'T2':
+
+        vd_mail = today + TDay * 2
+
+
+
+    if im == "예탁원(KSD)":
+
+        intermed = "KSD"
+
+    if im == "증금(KSFC)":
+
+        intermed = "KSFC"
+
+
+
+    tt_temp = tt.replace('?', '').replace('오늘', '').replace('내일', '').split('\n')
+
+    tt_aaa = []
+
+    for i in range(len(tt_temp)):
+
+        ttt = tt_temp[i].split('리')[0].replace('T0', '').replace('T1', '').replace('T2', '').replace('오늘', '').replace(
+
+            '북', '').replace('.KS', '').replace('.KQ', '').replace('KS', '').replace('@', '').replace('%', '').replace(
+
+            'KP', '').replace('KQ', '')
+
+        tt_aaa.append(ttt)
+
+    tt_temp = list(filter(None, tt_aaa))
+
+
+
+    tt_d = []
+
+
+
+    if cp == '유안타' or cp == '이베스트전략운용' or cp == '트러스톤':
+
+        for i in range(len(tt_temp)):
+
+            tt_c = tt_temp[i].split()
+
+            tt_c[0] = tt_c[0].replace('A', '')
+
+
+
+            if len(tt_c) > 4:
+
+                for i in range(len(tt_c) - 4):
+
+                    tt_c[1] += ' ' + tt_c[2]
+
+                    del tt_c[2]
+
+            tt_c[-2] = "{:,}".format(int(
+
+                tt_c[-2].replace(',', '').lower().replace('k', '000').replace('주', '').replace('만', '0000').replace('천',
+
+                                                                                                                    '000')),
+
+                                     ',')
+
+            tt_c[-1] = "{:.2f}".format(float(tt_c[-1]))
+
+            tt_d.append(tt_c)
+
+
+
+
+
+    else:
+
+
+
+        for i in range(len(tt_temp)):
+
+            tt_c = tt_temp[i].split()
+
+            tt_c[1] = "{:,}".format(int(tt_c[1].replace(',', '').lower().replace('k', '000')), ',')
+
+            tt_c[2] = "{:.2f}".format(float(tt_c[2]))
+
+            tt_e = ''
+
+
+
+            if cp == 'GS':
+
+                for j in range(len(tt_c)):
+
+                    tt_e = 'GS / {} / {} / {} / {}'.format(tt_c[0], tt_c[1], tt_c[2], vd)
+
+
+
+            elif cp == 'CITI':
+
+                tt_e = '{} {} {}'.format(tt_c[0], tt_c[1], tt_c[2])
+
+
+
+            else:
+
+                tt_e = '{} KS {} @ {}'.format(tt_c[0], tt_c[1], tt_c[2])
+
+
+
+            tt_d.append(tt_e)
+
+
+
+        tt_body = '  <br>'.join(tt_d)
+
+
+
+    if fm == '지정':
+
+        fm_mail = 'arranged'
+
+    if fm == '맞춤':
+
+        fm_mail = 'customized'
+
+
+
+    if cp == 'MS':
+
+        mail_subject = "Stock Lending confirmation_Morgan Stanley"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Securities to Morgan Stanley Asia, via {0} {3}.  <br>
+
+    {2}  <br>
+
+    vd {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "ryosukef@bloomberg.net; pavanshegde@bloomberg.net; parksun@bloomberg.net; krdrconf@morganstanley.com; Brian.oum@morganstanley.com"
+
+        mail_Cc = "'Equityswap' <EQUITY.SWAP@SAMSUNG.COM>; 'CPGS' <cpgs@samsung.com>"
+
+
+
+    if cp == 'UBS':
+
+        mail_subject = "Stock Lending confirmation_UBS"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Sec to UBS, via {0} {3}, v/d {1}  <br>
+
+    {2}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "aprince22@bloomberg.net; kimyc@bloomberg.net; ol-sbl-asia@ubs.com; sh-sbl-apac-korea@ubs.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'CS':
+
+        mail_subject = "Stock loan confirmation_Credit Suisse"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Securities to Credit Suisse, via {0} {3}, v/d {1}  <br>
+
+    {2}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "ecartwright5@bloomberg.net; tbloxham@bloomberg.net; primeservices.stlndata@credit-suisse.com; thomas.bloxham@credit-suisse.com; sl.asiapac@credit-suisse.com; Helena.kwon@credit-suisse.com; list.ibeqapacpssbltraders@credit-suisse.com; fanny.feng@credit-suisse.com; list.apacermsbltrading@credit-suisse.com; sbltrading.asia@credit-suisse.com"
+
+        mail_Cc = "equity.swap@samsung.com;scbk.sbl@sc.com"
+
+
+
+    if cp == 'JPM':
+
+        mail_subject = "Stock loan confirmation_JP Morgan"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Sec to JP Morgan via {0}, v/d {1}  <br>
+
+    {2}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "jamescychung@bloomberg.net; awhye1@bloomberg.net; cherink@bloomberg.net; BL_Asia_Ex-Japan@jpmchase.com; jpm.sbl.confo@jpmorgan.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'Mac':
+
+        mail_subject = "Stock loan confirmation_Macquarie"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    From Samsung Sec to Macquarie, via {0} {3}.  <br>
+
+    {2}  <br>
+
+    {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "bshen888@bloomberg.net; sgoldshtein@bloomberg.net; simon.goldshtein@macquarie.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'SG':
+
+        mail_subject = "Stock loan confirmation_Societe Generale"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung lends to SG, via {0} {3}.  <br>
+
+    {2}  <br>
+
+    v/d {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "mnaija@bloomberg.net; sugeet1@bloomberg.net; sugeet.miglani@sgcib.com; mehdi.naija@sgcib.com; miho.shima@sgcib.com; sungbin.lee@sgcib.com; aaron.cheung@sgcib.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'DB':
+
+        mail_subject = "Stock lending confirmation_Deutsche"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Securities lends to Deutsche Bank, via {0} {3}, v/d {1}  <br>
+
+    {2}  <br>
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "slasia.confirms@db.com; alan.tsang@db.com; mehtkas@bloomberg.net; xustanf@bloomberg.net"
+
+        mail_Cc = "equity.swap@samsung.com;cpgs@samsung.com"
+
+
+
+    if cp == 'NOM':
+
+        mail_subject = "Stock loan confirmation_Nomura"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    From Samsung Securities to Nomura, via {0} {3}  <br>
+
+    {2}  <br>
+
+    V/d {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "mlee512@bloomberg.net; nlewis28@bloomberg.net; tina.kwok@nomura.com; sblaej-ap@nomura.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'HSBC':
+
+        mail_subject = "Stock lending confirmation_HSBC"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Securities lends to HSBC, via {0} {3}  <br>
+
+    {2}  <br>
+
+    v/d {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "kpark145@bloomberg.net; ken.x.cheung@hsbc.com.hk; kevin.h.j.park@hsbc.com.hk; sblasia@hsbc.com.hk"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'BNP':
+
+        mail_subject = "Stock loan confirmation_BNP"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Sec to BNP, via {0}   <br>
+
+    {2}  <br>
+
+    v/d {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body)
+
+
+
+        mail_To = "jkim0331@bloomberg.net; 'James Shin' <james.j.shin@bloomberg.net; stanford.xu@asia.bnpparibas.com>; amuranaka3@bloomberg.net; allison.ching@asia.bnpparibas.com; dl.sbl.apac@asia.bnpparibas.com; asia_edo_slab@asia.bnpparibas.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'GS':
+
+        mail_subject = "Stock loan confirmation_Goldman Sachs"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    {}  <br>
+
+    </span>
+
+</body>
+
+'''.format(tt_body)
+
+
+
+        mail_To = "emily.zhang@bloomberg.net; yunhoi.koo@bloomberg.net; klee921@bloomberg.net; KRSBL@hk.email.gs.com; gs-sl-ops-hk@ny.email.gs.com; gs-sl-hfasia@gs.com.; KRSBL@hk.email.gs.com; vrastogi7@bloomberg.net; inv@slwww.eq.gs.com"
+
+        mail_Cc = "gsachs-hk@bloomberg.net;equity.swap@samsung.com"
+
+
+
+    if cp == 'CITI':
+
+        mail_subject = "Stock loan confirmation_Citi"
+
+
+
+        citi_html = '''
+
+<tr style='height:16.5pt'>
+
+    <td width=139 nowrap style='width:104.0pt;border:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+        <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+            <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>{0}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=72 nowrap style='width:54.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+        <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+            <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>{1}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=103 nowrap style='width:77.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+        <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+            <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>{2}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=127 nowrap style='width:95.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+        <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+            <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>{3}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=72 nowrap style='width:54.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+        <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+            <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>{4}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+</tr>
+
+'''.replace('\n', '')
+
+
+
+        trading_day = today.strftime("%d-%m-%Y")
+
+
+
+        if vd == 'T0':
+
+            settle_date = today
+
+        if vd == 'T1':
+
+            settle_date = today + TDay
+
+        if vd == 'T2':
+
+            settle_date = today + TDay * 2
+
+
+
+        settle_day = settle_date.strftime("%d-%m-%Y")
+
+
+
+        citi_html_span = ''
+
+        for i in range(len(tt_d)):
+
+            citi_form = tt_d[i].split()
+
+            citi_html_span = citi_html_span + citi_html.format(citi_form[0] + ' KS', citi_form[1], trading_day,
+
+                                                               settle_day, citi_form[2])
+
+
+
+        mail_body = '''
+
+<body>
+
+    <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width=0 style='width:384.0pt;margin-left:-.15pt;border-collapse:collapse'>
+
+        <tr style='height:16.5pt'>
+
+        <td width=139 nowrap style='width:104.0pt;border:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+            <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+                <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>BloombergTicker
+
+                    <o:p></o:p>
+
+                </span>
+
+            </p>
+
+        </td>
+
+        <td width=72 nowrap style='width:54.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+            <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+                <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>Qty
+
+                    <o:p></o:p>
+
+                </span>
+
+            </p>
+
+        </td>
+
+        <td width=103 nowrap style='width:77.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+            <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+                <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>Trading Date
+
+                    <o:p></o:p>
+
+                </span>
+
+            </p>
+
+        </td>
+
+        <td width=127 nowrap style='width:95.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+            <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+                <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>Settlement Date
+
+                    <o:p></o:p>
+
+                </span>
+
+            </p>
+
+        </td>
+
+        <td width=72 nowrap style='width:54.0pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 4.95pt 0cm 4.95pt;height:16.5pt'>
+
+            <p class=MsoNormal align=center style='margin-left:0cm;text-align:center'>
+
+                <span lang=EN-US style='font-size:11.0pt;font-family:"맑은 고딕"'>Rate
+
+                    <o:p></o:p>
+
+                </span>
+
+            </p>
+
+        </td>
+
+        </tr>
+
+        {}
+
+    </table>
+
+    <p class=MsoNormal style='margin-left:0cm;word-break:break-hangul'>
+
+        <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>Term : Open
+
+            <o:p></o:p>
+
+        </span>
+
+    </p>
+
+</body>
+
+'''.format(citi_html_span)
+
+
+
+        mail_To = " blee740@bloomberg.net; pfssapprimefinancekrcfm@citi.com; jchung418@bloomberg.net";
+
+        mail_Cc = "'Equityswap' <EQUITY.SWAP@SAMSUNG.COM>"
+
+
+
+    if cp == 'JEFF':
+
+        mail_subject = "Stock lending confirmation_Jefferies"
+
+        mail_body = '''
+
+<body>
+
+<span style='font-size:16px;font-family:"Arial";'>
+
+Samsung lends to Jefferies via {0} {3}  <br>
+
+{2}  <br>
+
+v/d {1}
+
+</span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body, fm_mail)
+
+
+
+        mail_To = "jlau248@bloomberg.net; agnes.yau@jefferies.com"
+
+        mail_Cc = "'Equity.swap' <equity.swap@samsung.com>; '장내상품' <sangpum@samsung.com>; cpgs@samsung.com"
+
+
+
+    if cp == '유안타':
+
+        mail_subject = "대차거래 확정내역"
+
+
+
+        yuanta_html = '''
+
+<tr style='height:18.0pt'>
+
+    <td width=131 nowrap style='width:98.0pt;border:solid windowtext 1.0pt;border-top:none;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{0}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=131 nowrap style='width:98.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>{1}
+
+                <span lang=EN-US>
+
+                    <o:p></o:p>
+
+                </span>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=103 nowrap style='width:77.3pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=right style='margin:0cm;margin-bottom:.0001pt;text-align:right'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{2} 
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=71 nowrap style='width:53.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=right style='margin:0cm;margin-bottom:.0001pt;text-align:right'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{3}%
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=121 nowrap style='width:91.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{4}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=72 nowrap style='width:53.9pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{5}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+</tr>
+
+'''.replace('\n', '')
+
+
+
+        trading_day = vd_mail.strftime("%Y-%m-%d")
+
+
+
+        yuanta_html_span = ''
+
+        for i in range(len(tt_d)):
+
+            yuanta_form = tt_d[i]
+
+            yuanta_html_span = yuanta_html_span + yuanta_html.format(yuanta_form[0], yuanta_form[1], yuanta_form[2],
+
+                                                                     yuanta_form[3], trading_day, intermed)
+
+
+
+        mail_body = '''
+
+<body lang=KO link=blue vlink=purple style='margin-left:7.5pt;margin-top:7.5pt;margin-right:7.5pt;margin-bottom:7.5pt'>
+
+    <div class=WordSection1>
+
+        <p class=MsoNormal style='margin-left:0cm;word-break:break-hangul'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>아래와 같이 확정드립니다.<br>감사합니다.             
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+        <p style='text-align:justify;text-justify:inter-ideograph'>
+
+            <span lang=EN-US>&nbsp;
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+        <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 style='margin-left:-1.9pt;border-collapse:collapse'>
+
+            <tr style='height:16.7pt'>
+
+                <td width=148 valign=top style='width:110.9pt;border:solid windowtext 1.0pt;background:#FFFF99;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>대여자
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+                <td width=231 valign=top style='width:172.9pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>삼성증권
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+            <tr style='height:16.7pt'>
+
+                <td width=148 valign=top style='width:110.9pt;border:solid windowtext 1.0pt;border-top:none;background:#FFFF99;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>차입자
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+                <td width=231 valign=top style='width:172.9pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>유안타증권
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+        <p style='text-align:justify;text-justify:inter-ideograph'>
+
+            <span lang=EN-US>&nbsp;
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+        <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width=0 style='width:471.2pt;margin-left:.2pt;border-collapse:collapse'>
+
+            <tr style='height:18.0pt'>
+
+                <td width=131 nowrap style='width:98.0pt;border:solid windowtext 1.0pt;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>종목
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=131 nowrap style='width:98.0pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>코드
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=103 nowrap style='width:77.3pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>수량
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=71 nowrap style='width:53.0pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>수수료
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=121 nowrap style='width:91.0pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>거래일
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=72 nowrap style='width:53.9pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>중개기관
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+            {}
+
+        </table>
+
+    </div>
+
+</body>
+
+'''.format(yuanta_html_span)
+
+
+
+        mail_To = "otc.deriva2@yuantakorea.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == '트러스톤':
+
+        mail_subject = "Stock lending confirmation_트러스톤"
+
+
+
+        truston_html = '''
+
+종목: {0} {1} {2}주 <br>
+
+요율: {3}% <br>
+
+확정일자: {4} <br>
+
+확정시각: {5} <br>
+
+<br>
+
+'''
+
+
+
+        truston_html_span = ''
+
+
+
+        for i in range(len(tt_d)):
+
+            truston_form = tt_d[i]
+
+            truston_html_span = truston_html_span + truston_html.format(truston_form[0], truston_form[1],
+
+                                                                        truston_form[2], truston_form[3],
+
+                                                                        '{}년 {}월 {}일'.format(today.year, today.month,
+
+                                                                                             today.day),
+
+                                                                        '{}:{}'.format(today.hour, today.minute))
+
+
+
+        mail_body = '''
+
+<body lang=KO link=blue vlink=purple style='margin-left:7.5pt;margin-top:7.5pt;margin-right:7.5pt;margin-bottom:7.5pt'>
+
+    <div class=WordSection1>
+
+        <p class=MsoNormal style='margin-left:0cm;word-break:break-hangul'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>안녕하십니까, 삼성증권입니다.<br>아래와 같이 대차거래 확정드립니다.<br>감사합니다.<br><br>{}             
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </div>
+
+</body>
+
+'''.format(truston_html_span)
+
+
+
+        mail_To = "'Kim Hae In' <hikim@trustonasset.com>; 'Fund Accounting' <FundAccounting@trustonasset.com>; Compliance@trustonasset.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'BNP return':
+
+        mail_subject = "Stock Return confirmation_BNP"
+
+        mail_body = '''
+
+<body>
+
+    <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Sec to BNP, via {0}   <br>
+
+    {2}  <br>
+
+    v/d {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body)
+
+
+
+        mail_To = "asia_edo_slab@asia.bnpparibas.com; asia_slab_trade.support@asia.bnpparibas.com; dl.slab.asia@asia.bnpparibas.com; allison.ching@asia.bnpparibas.com; dl.sbl.apac@asia.bnpparibas.com"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == 'HSBC return':
+
+        mail_subject = "Stock Return confirmation_HSBC"
+
+        mail_body = '''
+
+<body>
+
+     <span style='font-size:16px;font-family:"Arial";'>
+
+    Samsung Sec to HSBC, via {0}   <br>
+
+    {2}  <br>
+
+    v/d {1}
+
+    </span>
+
+</body>
+
+'''.format(intermed, vd_mail.strftime("%Y-%m-%d"), tt_body)
+
+
+
+        mail_To = "hk.mods.tpm.equities.mo@hsbc.com.hk; sblasia@hsbc.com.hk"
+
+        mail_Cc = "equity.swap@samsung.com"
+
+
+
+    if cp == '이베스트전략운용':
+
+        mail_subject = "대차거래 확정내역"
+
+
+
+        ebest_stmgmt_html = '''
+
+<tr style='height:18.0pt'>
+
+    <td width=131 nowrap style='width:98.0pt;border:solid windowtext 1.0pt;border-top:none;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{0}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=131 nowrap style='width:98.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>{1}
+
+                <span lang=EN-US>
+
+                    <o:p></o:p>
+
+                </span>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=103 nowrap style='width:77.3pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=right style='margin:0cm;margin-bottom:.0001pt;text-align:right'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{2} 
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=71 nowrap style='width:53.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=right style='margin:0cm;margin-bottom:.0001pt;text-align:right'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{3}%
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=121 nowrap style='width:91.0pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{4}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+    <td width=72 nowrap style='width:53.9pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+        <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>{5}
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+    </td>
+
+</tr>
+
+'''.replace('\n', '')
+
+
+
+        trading_day = vd_mail.strftime("%Y-%m-%d")
+
+
+
+        ebest_stmgmt_html_span = ''
+
+        for i in range(len(tt_d)):
+
+            ebest_stmgmt_form = tt_d[i]
+
+            ebest_stmgmt_html_span = ebest_stmgmt_html_span + ebest_stmgmt_html.format(ebest_stmgmt_form[0],
+
+                                                                                       ebest_stmgmt_form[1],
+
+                                                                                       ebest_stmgmt_form[2],
+
+                                                                                       ebest_stmgmt_form[3],
+
+                                                                                       trading_day, intermed)
+
+
+
+        mail_body = '''
+
+<body lang=KO link=blue vlink=purple style='margin-left:7.5pt;margin-top:7.5pt;margin-right:7.5pt;margin-bottom:7.5pt'>
+
+    <div class=WordSection1>
+
+        <p class=MsoNormal style='margin-left:0cm;word-break:break-hangul'>
+
+            <span lang=EN-US style='font-size:10.0pt;font-family:"맑은 고딕"'>아래와 같이 확정드립니다.<br>감사합니다.             
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+        <p style='text-align:justify;text-justify:inter-ideograph'>
+
+            <span lang=EN-US>&nbsp;
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+        <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 style='margin-left:-1.9pt;border-collapse:collapse'>
+
+            <tr style='height:16.7pt'>
+
+                <td width=148 valign=top style='width:110.9pt;border:solid windowtext 1.0pt;background:#FFFF99;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>대여자
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+                <td width=231 valign=top style='width:172.9pt;border:solid windowtext 1.0pt;border-left:none;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>삼성증권
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+            <tr style='height:16.7pt'>
+
+                <td width=148 valign=top style='width:110.9pt;border:solid windowtext 1.0pt;border-top:none;background:#FFFF99;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>차입자
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+                <td width=231 valign=top style='width:172.9pt;border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 1.5pt 0cm 1.5pt;height:16.7pt'>
+
+                    <p class=MsoNormal align=center style='text-align:center'>
+
+                        <span style='font-size:10.0pt;font-family:"맑은 고딕"'>이베스트투자증권 전략운용팀
+
+                        </span>
+
+                        <span lang=EN-US>
+
+                            <o:p></o:p>
+
+                        </span>
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+        <p style='text-align:justify;text-justify:inter-ideograph'>
+
+            <span lang=EN-US>&nbsp;
+
+                <o:p></o:p>
+
+            </span>
+
+        </p>
+
+        <table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0 width=0 style='width:471.2pt;margin-left:.2pt;border-collapse:collapse'>
+
+            <tr style='height:18.0pt'>
+
+                <td width=131 nowrap style='width:98.0pt;border:solid windowtext 1.0pt;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>종목코드
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=131 nowrap style='width:98.0pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>종목명
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=103 nowrap style='width:77.3pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>수량
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=71 nowrap style='width:53.0pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>수수료
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=121 nowrap style='width:91.0pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>거래일
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+                <td width=72 nowrap style='width:53.9pt;border:solid windowtext 1.0pt;border-left:none;background:yellow;padding:0cm 4.95pt 0cm 4.95pt;height:18.0pt'>
+
+                    <p class=MsoNormal align=center style='margin:0cm;margin-bottom:.0001pt;text-align:center'>
+
+                        <b>
+
+                            <span style='font-size:10.0pt;font-family:"맑은 고딕"'>중개기관
+
+                                <span lang=EN-US>
+
+                                    <o:p></o:p>
+
+                                </span>
+
+                            </span>
+
+                        </b>
+
+                    </p>
+
+                </td>
+
+            </tr>
+
+            {}
+
+        </table>
+
+    </div>
+
+</body>
+
+'''.format(ebest_stmgmt_html_span)
+
+
+
+        mail_To = "saw@ebestsec.co.kr; '구정현' <bianca.koo@ebestsec.co.kr>; '이수현' <xururu700@ebestsec.co.kr>; sososo123@ebestsec.co.kr; khj@ebestsec.co.kr"
+
+        mail_Cc = "'Equityswap' <equity.swap@samsung.com>; 'CPGS' <cpgs@samsung.com>; myungmi.K@ebestsec.co.kr"
+
+
+
+    olMailItem = 0x0
+
+    obj = win32com.client.Dispatch("Outlook.Application")
+
+    newMail = obj.CreateItem(olMailItem)
+
+
+
+    newMail.Subject = mail_subject
+
+    newMail.HTMLBody = mail_body
+
+    newMail.To = mail_To
+
+    newMail.CC = mail_Cc
+
+
+
+    newMail.Display()
+
+
+
+
+
+app = tkinter.Tk()
+
+app.title("Confirmation Mail Sender")
+
+app.geometry('350x220')
+
+
+
+cp_label = tkinter.Label(app, text='상대방')
+
+cp_label.grid(column=0, row=0)
+
+
+
+cp_combo = tkinter.ttk.Combobox(app, width=10,
+
+                                values=['선택', 'MS', 'JPM', 'UBS', 'CS', 'GS', 'SG', 'Mac', 'DB', 'NOM', 'BNP', 'CITI',
+
+                                        'HSBC', 'JEFF', '유안타', '트러스톤', '이베스트전략운용', 'BNP return', 'HSBC return'])
+
+cp_combo.current(0)
+
+cp_combo.grid(column=1, row=0)
+
+cp_combo.bind('<<ComboboxSelected>>', cp_get)
+
+
+
+vd_label = tkinter.Label(app, text='VD')
+
+vd_label.grid(column=0, row=1)
+
+
+
+vd_combo = tkinter.ttk.Combobox(app, width=10, values=['선택', 'T0', 'T1', 'T2'])
+
+vd_combo.current(0)
+
+vd_combo.grid(column=1, row=1)
+
+vd_combo.bind('<<ComboboxSelected>>', vd_get)
+
+
+
+im_label = tkinter.Label(app, text='중개기관')
+
+im_label.grid(column=0, row=2)
+
+
+
+im_combo = tkinter.ttk.Combobox(app, width=10, values=['선택', '예탁원(KSD)', '증금(KSFC)'])
+
+im_combo.current(0)
+
+im_combo.grid(column=1, row=2)
+
+im_combo.bind('<<ComboboxSelected>>', im_get)
+
+
+
+fm_label = tkinter.Label(app, text='거래종류')
+
+fm_label.grid(column=0, row=3)
+
+
+
+fm_combo = tkinter.ttk.Combobox(app, width=10, values=['선택', '지정', '맞춤'])
+
+fm_combo.current(0)
+
+fm_combo.grid(column=1, row=3)
+
+fm_combo.bind('<<ComboboxSelected>>', fm_get)
+
+
+
+txt_label = tkinter.Label(app, text='거래정보')
+
+txt_label.grid(column=0, row=4)
+
+
+
+textbox = scrolledtext.ScrolledText(app,
+
+                                    width=25,
+
+                                    height=6,
+
+                                    wrap=tkinter.WORD,
+
+                                    font=("Times New Roman", 10)
+
+                                    )
+
+textbox.grid(column=1, row=4)
+
+
+
+btn1 = tkinter.Button(app, width=3, height=1, text='Save', command=saveClick)
+
+btn1.grid(column=2, row=4)
+
+
+
+btn2 = tkinter.Button(app, width=3, height=1, text='Send', command=mail_send)
+
+btn2.grid(column=3, row=5)
+
+
+
+app.mainloop()
+
+
+
+
+
+
+
+
+
+ 
+
+ 
+
+ 
+
+이건우  Kunwoo Lee
+
+DeltaOne Solution
+
+T 02-2020-7493   
+
+kunwoo3744.lee@samung.com
+
+Samsung Financial Networks
+
+삼성증권
+
+ 
+
+ 
+
+ 
+
+
+
+
+		noname
+23K 보기 검사 및 다운로드
